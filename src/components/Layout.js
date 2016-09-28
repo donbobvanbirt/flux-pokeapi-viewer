@@ -39,19 +39,6 @@ export default class Layout extends Component {
     PokemonActions.fetchPokemon(number);
   }
 
-  clearModal() {
-    // name = '';
-    // image = '';
-    // type = '';
-    // weight = '';
-    // height = '';
-    // hp = '';
-    // attack = '';
-    // defence = '';
-    // speed = '';
-    console.log('modal cleared');
-  }
-
   render() {
 
     const { pokemon, pokedex } = this.state;
@@ -70,7 +57,7 @@ export default class Layout extends Component {
     let abilities = '';
 
     let pokemonList = (
-        <h5>Loding Pokemon...</h5>
+      <h5>Loding Pokemon...</h5>
     );
 
     if (pokemon) {
@@ -107,6 +94,20 @@ export default class Layout extends Component {
       })
     }
 
+    function clearModal() {
+      // name = '';
+      // image = '';
+      // type = '';
+      // weight = '';
+      // height = '';
+      // hp = '';
+      // attack = '';
+      // defence = '';
+      // speed = '';
+      // console.log('name:', name, 'type', type);
+      // console.log('modal cleared');
+    }
+
     return (
       <div className='container'>
         <h1 className='text-center'>Flux Pokéapi Viewer</h1>
@@ -116,28 +117,38 @@ export default class Layout extends Component {
 
             <div className="modal-content">
               <div className="modal-header">
-                <button type="button" className="close" onClick={this.clearModal} data-dismiss="modal">&times;</button>
+                <button type="button" className="close" onClick={clearModal} data-dismiss="modal">&times;</button>
                 <h4 className="modal-title">{name}</h4>
               </div>
               <div className="modal-body">
 
-                <img src={image} alt= {name}/>
-                <ul>
-                  <li>Type: {type}</li>
-                  <li>HP: {hp}</li>
-                  <li>Speed: {speed}</li>
-                  <li>Attack: {attack}</li>
-                  <li>Defence: {defence}</li>
-                  <li>Special Attack: {specialAttack}</li>
-                  <li>Special Defence: {specialDefence}</li>
-                  <li>Height: {height}</li>
-                  <li>Weight: {weight}</li>
-                  <li>Abilities: {abilities}</li>
-                </ul>
+                <div className="row">
+                  <div className="col-sm-6">
+
+                    <img src={image} alt= {name}/>
+                    <li>Type: {type}</li>
+                    <li>Height: {height}</li>
+                    <li>Weight: {weight}</li>
+                  </div>
+                  <div className="col-sm-6">
+
+                    <ul>
+
+                      <li>HP: {hp}</li>
+                      <li>Speed: {speed}</li>
+                      <li>Attack: {attack}</li>
+                      <li>Defence: {defence}</li>
+                      <li>Special Attack: {specialAttack}</li>
+                      <li>Special Defence: {specialDefence}</li>
+
+                      <li>Abilities: {abilities}</li>
+                    </ul>
+                  </div>
+                </div>
 
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-default" onClick={this.clearModal} data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-default" onClick={clearModal} data-dismiss="modal">Close</button>
               </div>
             </div>
 
