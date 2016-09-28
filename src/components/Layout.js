@@ -91,7 +91,7 @@ export default class Layout extends Component {
       if (this.state.searchField) {
         let { searchField } = this.state;
         pokeList = pokedex.pokemon_entries.filter(pokemon => {
-          return pokemon.pokemon_species.name.substring(0, searchField.length) === searchField;
+          return pokemon.pokemon_species.name.substring(0, searchField.length) === searchField.toLowerCase();
         })
       } else {
         pokeList = pokedex.pokemon_entries;
