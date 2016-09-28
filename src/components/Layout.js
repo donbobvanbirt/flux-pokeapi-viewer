@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PokemonActions from '../actions/PokemonActions'
 import PokemonStore from '../stores/PokemonStore'
 import PokedexStore from '../stores/PokedexStore'
+import Search from './Search'
 
 export default class Layout extends Component {
   constructor() {
@@ -9,7 +10,8 @@ export default class Layout extends Component {
 
     this.state = {
       pokemon: PokemonStore.getPokemon(),
-      pokedex: PokedexStore.getPokedex()
+      pokedex: PokedexStore.getPokedex(),
+      searchField: PokemonStore.getSearch()
     }
 
     this.fetchPokemon = this.fetchPokemon.bind(this);
@@ -30,7 +32,8 @@ export default class Layout extends Component {
   _onChange() {
     this.setState({
       pokemon: PokemonStore.getPokemon(),
-      pokedex: PokedexStore.getPokedex()
+      pokedex: PokedexStore.getPokedex(),
+      searchField: PokemonStore.getSearch()
     })
     console.log('state', this.state);
   }
@@ -55,6 +58,7 @@ export default class Layout extends Component {
     let specialDefence = '';
     let specialAttack = '';
     let abilities = '';
+    let pokeList = [];
 
     let pokemonList = (
       <h5>Loding Pokemon...</h5>
@@ -84,7 +88,16 @@ export default class Layout extends Component {
     }
 
     if (pokedex) {
-      pokemonList = pokedex.pokemon_entries.map(pokemon => {
+      if (this.state.searchField) {
+        let { searchField } = this.state;
+        pokeList = pokedex.pokemon_entries.filter(pokemon => {
+          return pokemon.pokemon_species.name.substring(0, searchField.length) === searchField;
+        })
+      } else {
+        pokeList = pokedex.pokemon_entries;
+      }
+
+      pokemonList = pokeList.map(pokemon => {
         let { name } = pokemon.pokemon_species;
         let num = pokemon.entry_number;
         let imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${num}.png`
@@ -111,6 +124,7 @@ export default class Layout extends Component {
     return (
       <div className='container'>
         <h1 className='text-center'>Flux Pokéapi Viewer</h1>
+        <Search />
 
         <div id="myModal" className="modal fade" role="dialog">
           <div className="modal-dialog">

@@ -2,6 +2,7 @@ import { EventEmitter } from 'events'
 import AppDispatcher from '../AppDispatcher'
 
 let _pokemon = null;
+let searchField = '';
 
 class PokemonStore extends EventEmitter {
   constructor() {
@@ -11,6 +12,10 @@ class PokemonStore extends EventEmitter {
       switch(action.type) {
         case 'RECEIVE_POKEMON':
           _pokemon = action.payload.pokemon;
+          this.emit('CHANGE');
+          break;
+        case 'ENTER_TEXT':
+          searchField = action.payload.text;
           this.emit('CHANGE');
           break;
       }
@@ -27,6 +32,10 @@ class PokemonStore extends EventEmitter {
 
   getPokemon() {
     return _pokemon;
+  }
+
+  getSearch() {
+    return searchField;
   }
 
 }
