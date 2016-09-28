@@ -35,7 +35,7 @@ export default class Layout extends Component {
       pokedex: PokedexStore.getPokedex(),
       searchField: PokemonStore.getSearch()
     })
-    console.log('state', this.state);
+    // console.log('state', this.state);
   }
 
   fetchPokemon(number) {
@@ -107,20 +107,6 @@ export default class Layout extends Component {
       })
     }
 
-    function clearModal() {
-      // name = '';
-      // image = '';
-      // type = '';
-      // weight = '';
-      // height = '';
-      // hp = '';
-      // attack = '';
-      // defence = '';
-      // speed = '';
-      // console.log('name:', name, 'type', type);
-      // console.log('modal cleared');
-    }
-
     return (
       <div className='container'>
         <h1 className='text-center'>Flux Pokéapi Viewer</h1>
@@ -131,7 +117,7 @@ export default class Layout extends Component {
 
             <div className="modal-content">
               <div className="modal-header">
-                <button type="button" className="close" onClick={clearModal} data-dismiss="modal">&times;</button>
+                <button type="button" className="close" data-dismiss="modal">&times;</button>
                 <h4 className="modal-title">{name}</h4>
               </div>
               <div className="modal-body">
@@ -162,7 +148,7 @@ export default class Layout extends Component {
 
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-default" onClick={clearModal} data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
 

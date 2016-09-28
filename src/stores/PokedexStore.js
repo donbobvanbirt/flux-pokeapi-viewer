@@ -11,7 +11,7 @@ class PokedexStore extends EventEmitter {
       switch (action.type) {
         case 'RECEIVE_POKEDEX':
           _pokedex = action.payload.pokedex;
-          console.log('pokedex:', _pokedex);
+          // console.log('pokedex:', _pokedex);
           this.emit('CHANGE');
           break;
       }
