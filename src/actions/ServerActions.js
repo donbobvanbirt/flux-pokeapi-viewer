@@ -6,7 +6,14 @@ const ServerActions = {
       type: 'RECEIVE_POKEMON',
       payload: { pokemon }
     })
-    console.log(pokemon);
+    // console.log(pokemon);
+  },
+
+  receivePokedex(pokedex) {
+    AppDispatcher.dispatch({
+      type: 'RECEIVE_POKEDEX',
+      payload: { pokedex }
+    })
   }
 }
 

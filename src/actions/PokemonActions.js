@@ -4,6 +4,10 @@ import API from '../API'
 const PokemonActions = {
   fetchPokemon(number) {
     API.fetchPokemon(number);
+  },
+
+  fetchEmAll() {
+    API.fetchEmAll();
   }
 }
 

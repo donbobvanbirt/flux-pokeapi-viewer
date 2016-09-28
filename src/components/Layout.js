@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import PokemonActions from '../actions/PokemonActions'
 import PokemonStore from '../stores/PokemonStore'
+import PokedexStore from '../stores/PokedexStore'
 
 export default class Layout extends Component {
   constructor() {
     super();
 
     this.state = {
-      pokemon: PokemonStore.getPokemon()
+      pokemon: PokemonStore.getPokemon(),
+      pokedex: PokedexStore.getPokedex()
     }
 
     this.fetchPokemon = this.fetchPokemon.bind(this);
@@ -15,18 +17,22 @@ export default class Layout extends Component {
   }
 
   componentWillMount() {
+    PokemonActions.fetchEmAll();
     PokemonStore.startListening(this._onChange);
+    PokedexStore.startListening(this._onChange);
   }
 
   componentWillUnmount() {
     PokemonStore.stopListening(this._onChange);
+    PokedexStore.stopListening(this._onChange);
   }
 
   _onChange() {
     this.setState({
-      pokemon: PokemonStore.getPokemon()
+      pokemon: PokemonStore.getPokemon(),
+      pokedex: PokedexStore.getPokedex()
     })
-
+    console.log('state', this.state);
   }
 
   fetchPokemon() {
@@ -38,12 +44,19 @@ export default class Layout extends Component {
 
   render() {
 
-    const { pokemon } = this.state;
+    const { pokemon, pokedex } = this.state;
+
     let name = '';
     let image = '';
     let type = '';
     let weight = '';
     let height = '';
+
+    let pokemonList = (
+      <tr>
+        <td>Loding Pokemon...</td>
+      </tr>
+    );
 
     if (pokemon) {
       name = pokemon.name;
@@ -57,6 +70,21 @@ export default class Layout extends Component {
       }
     }
 
+    if (pokedex) {
+      pokemonList = pokedex.pokemon_entries.map((pokemon, i) => {
+        let { name } = pokemon.pokemon_species;
+        let imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.entry_number}.png`
+        return (
+          <tr key={i}>
+            <td><img src={imageUrl} alt= {name}/></td>
+            <td>{name}</td>
+            <td>
+              <button className="btn btn-info"></button>
+            </td>
+          </tr>
+        )
+      })
+    }
 
     return (
       <div className='container'>
@@ -81,14 +109,26 @@ export default class Layout extends Component {
             <tbody>
               <tr>
                 <td><img src={image} alt= {name}/></td>
-                <td>{name} </td>
+                <td>{name}</td>
                 <td>{type}</td>
                 <td>{height}</td>
                 <td>{weight}</td>
               </tr>
             </tbody>
           </table>
-
+          <hr/>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Info</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pokemonList}
+            </tbody>
+          </table>
 
         </div>
       </div>
