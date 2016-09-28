@@ -36,11 +36,21 @@ export default class Layout extends Component {
   }
 
   fetchPokemon(number) {
-    // let { pokemonNumber } = this.refs;
-    // let number = pokemonNumber.value;
-
     PokemonActions.fetchPokemon(number);
   }
+
+  // clearModal() {
+  //   name = '';
+  //   image = '';
+  //   type = '';
+  //   weight = '';
+  //   height = '';
+  //   hp = '';
+  //   attack = '';
+  //   defence = '';
+  //   speed = '';
+  //   console.log('modal cleared');
+  // }
 
   render() {
 
@@ -57,9 +67,7 @@ export default class Layout extends Component {
     let speed = '';
 
     let pokemonList = (
-      <tr>
-        <td>Loding Pokemon...</td>
-      </tr>
+        <h5>Loding Pokemon...</h5>
     );
 
     if (pokemon) {
@@ -85,7 +93,7 @@ export default class Layout extends Component {
         let num = pokemon.entry_number;
         let imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${num}.png`
         return (
-          <button key={num} onClick={() => this.fetchPokemon(num)} className="btn btn-default"><img src={imageUrl} alt= {name}/></button>
+          <button key={num} onClick={() => this.fetchPokemon(num)} data-toggle="modal" data-target="#myModal" className="btn btn-default"><img src={imageUrl} alt= {name}/></button>
         )
       })
     }
@@ -94,45 +102,36 @@ export default class Layout extends Component {
       <div className='container'>
         <h1 className='text-center'>Flux Pokéapi Viewer</h1>
 
+        <div id="myModal" className="modal fade" role="dialog">
+          <div className="modal-dialog">
 
-        {/* <div className="row">
-          <input type="number" ref='pokemonNumber'/>
-          <button onClick={this.fetchPokemon} className="btn btn-default">Get Pokemon</button>
-        </div> */}
-        <div className="row">
-          {/* <table className="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Height</th>
-                <th>Weight</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><img src={image} alt= {name}/></td>
-                <td>{name}</td>
-                <td>{type}</td>
-                <td>{height}</td>
-                <td>{weight}</td>
-              </tr>
-            </tbody>
-          </table> */}
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close" onClick={this.clearModal} data-dismiss="modal">&times;</button>
+                <h4 className="modal-title">{name}</h4>
+              </div>
+              <div className="modal-body">
 
-          <h2>{name}</h2>
-          <img src={image} alt= {name}/>
-          <ul>
-            <li>HP: {hp}</li>
-            <li>Speed: {speed}</li>
-            <li>Attack: {attack}</li>
-            <li>Defence: {defence}</li>
-            <li>Type: {type}</li>
-            <li>Height: {height}</li>
-            <li>Weight: {weight}</li>
-          </ul>
+                <img src={image} alt= {name}/>
+                <ul>
+                  <li>HP: {hp}</li>
+                  <li>Speed: {speed}</li>
+                  <li>Attack: {attack}</li>
+                  <li>Defence: {defence}</li>
+                  <li>Type: {type}</li>
+                  <li>Height: {height}</li>
+                  <li>Weight: {weight}</li>
+                </ul>
+
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-default" onClick={this.clearModal} data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
         </div>
+
         <hr/>
 
         {pokemonList}
