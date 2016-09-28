@@ -35,9 +35,9 @@ export default class Layout extends Component {
     console.log('state', this.state);
   }
 
-  fetchPokemon() {
-    let { pokemonNumber } = this.refs;
-    let number = pokemonNumber.value;
+  fetchPokemon(number) {
+    // let { pokemonNumber } = this.refs;
+    // let number = pokemonNumber.value;
 
     PokemonActions.fetchPokemon(number);
   }
@@ -51,6 +51,10 @@ export default class Layout extends Component {
     let type = '';
     let weight = '';
     let height = '';
+    let hp = '';
+    let attack = '';
+    let defence = '';
+    let speed = '';
 
     let pokemonList = (
       <tr>
@@ -63,6 +67,11 @@ export default class Layout extends Component {
       image = pokemon.sprites.front_default;
       weight = pokemon.weight;
       height = pokemon.height;
+      hp = pokemon.stats[5].base_stat;
+      attack = pokemon.stats[4].base_stat;
+      defence = pokemon.stats[3].base_stat;
+      speed = pokemon.stats[0].base_stat;
+
       if (pokemon.types[1]) {
         type = pokemon.types[0].type.name + "/" + pokemon.types[1].type.name;
       } else {
@@ -71,17 +80,12 @@ export default class Layout extends Component {
     }
 
     if (pokedex) {
-      pokemonList = pokedex.pokemon_entries.map((pokemon, i) => {
+      pokemonList = pokedex.pokemon_entries.map(pokemon => {
         let { name } = pokemon.pokemon_species;
-        let imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.entry_number}.png`
+        let num = pokemon.entry_number;
+        let imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${num}.png`
         return (
-          <tr key={i}>
-            <td><img src={imageUrl} alt= {name}/></td>
-            <td>{name}</td>
-            <td>
-              <button className="btn btn-info"></button>
-            </td>
-          </tr>
+          <button key={num} onClick={() => this.fetchPokemon(num)} className="btn btn-default"><img src={imageUrl} alt= {name}/></button>
         )
       })
     }
@@ -91,12 +95,12 @@ export default class Layout extends Component {
         <h1 className='text-center'>Flux Pokéapi Viewer</h1>
 
 
-        <div className="row">
+        {/* <div className="row">
           <input type="number" ref='pokemonNumber'/>
           <button onClick={this.fetchPokemon} className="btn btn-default">Get Pokemon</button>
-        </div>
+        </div> */}
         <div className="row">
-          <table className="table">
+          {/* <table className="table">
             <thead>
               <tr>
                 <th></th>
@@ -115,22 +119,24 @@ export default class Layout extends Component {
                 <td>{weight}</td>
               </tr>
             </tbody>
-          </table>
-          <hr/>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Info</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pokemonList}
-            </tbody>
-          </table>
+          </table> */}
 
+          <h2>{name}</h2>
+          <img src={image} alt= {name}/>
+          <ul>
+            <li>HP: {hp}</li>
+            <li>Speed: {speed}</li>
+            <li>Attack: {attack}</li>
+            <li>Defence: {defence}</li>
+            <li>Type: {type}</li>
+            <li>Height: {height}</li>
+            <li>Weight: {weight}</li>
+          </ul>
         </div>
+        <hr/>
+
+        {pokemonList}
+
       </div>
     )
   }
